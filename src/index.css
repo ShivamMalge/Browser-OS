@@ -1,0 +1,127 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 300 100% 50%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-cyber-bg-dark text-foreground;
+    font-family: 'JetBrains Mono', monospace;
+    overflow: hidden;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-cyber-dark-blue/30;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-cyber-neon-purple/50 rounded-full hover:bg-cyber-neon-purple/80;
+  }
+}
+
+@layer components {
+  .window {
+    @apply bg-black/70 backdrop-blur-md border border-cyber-neon-purple/30 shadow-lg rounded overflow-hidden;
+  }
+  
+  .window-titlebar {
+    @apply bg-gradient-to-r from-cyber-dark-purple to-cyber-dark-blue p-2 flex items-center justify-between;
+  }
+
+  .window-content {
+    @apply p-4 overflow-auto;
+  }
+
+  .neon-border {
+    @apply border border-cyber-neon-pink/50 shadow-[0_0_5px_rgba(255,0,255,0.5)];
+  }
+
+  .neon-text {
+    @apply text-cyber-neon-pink drop-shadow-[0_0_2px_rgba(255,0,255,0.7)];
+  }
+
+  .neon-blue-text {
+    @apply text-cyber-neon-blue drop-shadow-[0_0_2px_rgba(0,255,255,0.7)];
+  }
+  
+  .neon-purple-text {
+    @apply text-cyber-neon-purple drop-shadow-[0_0_2px_rgba(138,43,226,0.7)];
+  }
+
+  .neon-green-text {
+    @apply text-cyber-neon-green drop-shadow-[0_0_2px_rgba(57,255,20,0.7)];
+  }
+
+  .dock-item {
+    @apply relative flex items-center justify-center w-12 h-12 rounded-full border border-cyber-neon-pink/30
+           transition-all duration-300 hover:border-cyber-neon-pink hover:shadow-[0_0_10px_rgba(255,0,255,0.5)]
+           hover:scale-110 hover:-translate-y-1;
+  }
+
+  .terminal {
+    @apply font-mono bg-cyber-terminal text-green-400 p-2 rounded;
+  }
+
+  .scanline {
+    @apply pointer-events-none fixed top-0 left-0 right-0 h-full z-50;
+    background: linear-gradient(rgba(255, 255, 255, 0.1) 0%, transparent 10%);
+    opacity: 0.1;
+  }
+
+  .cyber-grid-bg {
+    @apply bg-cyber-grid bg-[size:50px_50px] bg-cyber-bg-dark;
+    position: relative;
+  }
+  
+  .cyber-grid-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, rgba(26, 5, 54, 0) 0%, rgba(13, 17, 23, 0.8) 80%);
+    pointer-events: none;
+  }
+}
+
+/* Add a modern cyberpunk font */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
