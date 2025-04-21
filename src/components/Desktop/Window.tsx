@@ -1,88 +1,98 @@
+"use client"
 
-import React, { useState, useRef } from 'react';
-import { X, Minus, Square } from 'lucide-react';
-import Draggable from 'react-draggable';
-import { Resizable } from 're-resizable';
-import { useWindowContext } from '../../context/WindowContext';
-import XTerminal from '../Terminal/XTerminal';
-import FileExplorer from '../FileExplorer/FileExplorer';
-import Settings from '../Settings';
-import Help from '../Help';
+import type React from "react"
+import { useState, useRef } from "react"
+import Draggable from "react-draggable"
+import { Resizable } from "re-resizable"
+import { useWindowContext } from "../../context/WindowContext"
+import XTerminal from "../Terminal/XTerminal"
+import FileExplorer from "../FileExplorer/FileExplorer"
+import Settings from "../Settings"
+import Help from "../Help"
+import ChromeBrowser from "../Browser/ChromeBrowser"
+import SecuritySuite from "../SecuritySuite/SecuritySuite"
+import Spotify from "../Spotify/Spotify"
 
 interface WindowProps {
-  id: string;
-  title: string;
-  component: string;
-  width: number;
-  height: number;
-  x: number;
-  y: number;
-  isActive: boolean;
-  zIndex: number;
+  id: string
+  title: string
+  component: string
+  width: number
+  height: number
+  x: number
+  y: number
+  isActive: boolean
+  zIndex: number
 }
 
 const Window: React.FC<WindowProps> = ({ id, title, component, width, height, x, y, isActive, zIndex }) => {
-  const { closeWindow, minimizeWindow, focusWindow } = useWindowContext();
-  const [isMaximized, setIsMaximized] = useState(false);
-  const [position, setPosition] = useState({ x, y });
-  const [dimensions, setDimensions] = useState({ width, height });
-  const [prevDimensions, setPrevDimensions] = useState({ width, height });
-  const [prevPosition, setPrevPosition] = useState({ x, y });
-  const nodeRef = useRef(null);
+  const { closeWindow, minimizeWindow, focusWindow } = useWindowContext()
+  const [isMaximized, setIsMaximized] = useState(false)
+  const [position, setPosition] = useState({ x, y })
+  const [dimensions, setDimensions] = useState({ width, height })
+  const [prevDimensions, setPrevDimensions] = useState({ width, height })
+  const [prevPosition, setPrevPosition] = useState({ x, y })
+  const nodeRef = useRef(null)
 
   const handleClose = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    closeWindow(id);
-  };
+    e.stopPropagation()
+    closeWindow(id)
+  }
 
   const handleMinimize = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    minimizeWindow(id);
-  };
+    e.stopPropagation()
+    minimizeWindow(id)
+  }
 
   const handleMaximize = (e: React.MouseEvent) => {
-    e.stopPropagation();
+    e.stopPropagation()
     if (isMaximized) {
-      setDimensions(prevDimensions);
-      setPosition(prevPosition);
+      setDimensions(prevDimensions)
+      setPosition(prevPosition)
     } else {
-      setPrevDimensions(dimensions);
-      setPrevPosition(position);
-      setDimensions({ width: window.innerWidth - 10, height: window.innerHeight - 100 });
-      setPosition({ x: 5, y: 5 });
+      setPrevDimensions(dimensions)
+      setPrevPosition(position)
+      setDimensions({ width: window.innerWidth - 10, height: window.innerHeight - 100 })
+      setPosition({ x: 5, y: 5 })
     }
-    setIsMaximized(!isMaximized);
-  };
+    setIsMaximized(!isMaximized)
+  }
 
   const handleFocus = () => {
-    focusWindow(id);
-  };
+    focusWindow(id)
+  }
 
   const handleDragStop = (e: any, data: any) => {
-    setPosition({ x: data.x, y: data.y });
-  };
+    setPosition({ x: data.x, y: data.y })
+  }
 
   const handleResize = (e: any, direction: any, ref: any, d: any) => {
     setDimensions({
       width: dimensions.width + d.width,
-      height: dimensions.height + d.height
-    });
-  };
+      height: dimensions.height + d.height,
+    })
+  }
 
   const renderComponent = () => {
     switch (component) {
-      case 'Terminal':
-        return <XTerminal />;
-      case 'FileExplorer':
-        return <FileExplorer />;
-      case 'Settings':
-        return <Settings />;
-      case 'Help':
-        return <Help />;
+      case "Terminal":
+        return <XTerminal />
+      case "FileExplorer":
+        return <FileExplorer />
+      case "Settings":
+        return <Settings />
+      case "Help":
+        return <Help />
+      case "ChromeBrowser":
+        return <ChromeBrowser />
+      case "SecuritySuite":
+        return <SecuritySuite />
+      case "Spotify":
+        return <Spotify />
       default:
-        return <div>Component not found: {component}</div>;
+        return <div>Component not found: {component}</div>
     }
-  };
+  }
 
   return (
     <Draggable
@@ -93,12 +103,12 @@ const Window: React.FC<WindowProps> = ({ id, title, component, width, height, x,
       onStop={handleDragStop}
       disabled={isMaximized}
     >
-      <div 
+      <div
         ref={nodeRef}
-        className={`window absolute pointer-events-auto ${isActive ? 'neon-border' : 'border-gray-800'}`}
-        style={{ 
-          width: dimensions.width, 
-          height: dimensions.height, 
+        className={`window absolute pointer-events-auto ${isActive ? "neon-border" : "border-gray-800"}`}
+        style={{
+          width: dimensions.width,
+          height: dimensions.height,
           zIndex,
         }}
         onClick={handleFocus}
@@ -114,7 +124,7 @@ const Window: React.FC<WindowProps> = ({ id, title, component, width, height, x,
             topRight: !isMaximized,
             bottomRight: !isMaximized,
             bottomLeft: !isMaximized,
-            topLeft: !isMaximized
+            topLeft: !isMaximized,
           }}
           minWidth={300}
           minHeight={200}
@@ -135,19 +145,15 @@ const Window: React.FC<WindowProps> = ({ id, title, component, width, height, x,
                   className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600 transition-colors"
                 ></button>
               </div>
-              <div className="flex-1 text-center text-sm font-mono text-cyber-neon-purple">
-                {title}
-              </div>
+              <div className="flex-1 text-center text-sm font-mono text-cyber-neon-purple">{title}</div>
               <div className="w-12"></div> {/* For balanced spacing */}
             </div>
-            <div className="window-content flex-1 overflow-auto p-2">
-              {renderComponent()}
-            </div>
+            <div className="window-content flex-1 overflow-auto">{renderComponent()}</div>
           </div>
         </Resizable>
       </div>
     </Draggable>
-  );
-};
+  )
+}
 
-export default Window;
+export default Window
